@@ -13,7 +13,9 @@ namespace WebApp
     {
         public static void Main(string[] args)
         {
+            DateTime dt = new DateTime(2000, 8, 17, 4, 20, 21);
             CreateHostBuilder(args).Build().Run();
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

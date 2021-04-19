@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Models;
+using WebApp.Data;
 
 namespace WebApp
 {
@@ -20,9 +21,17 @@ namespace WebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<TodoContext>(opt =>
-              opt.UseInMemoryDatabase("TodoList"));
+            string ConnectionString = "Server=(localdb)\\mssqllocaldb;Database=WebAppDB;Trusted_Connection=True;";
+
+            services.AddDbContext<MyAppContext>(opt =>
+            opt.UseSqlServer(ConnectionString));
+
             services.AddControllers();
+
+            services.AddScoped<IUserRepo, SqlUserRepo>();
+
+            services.AddScoped<ITodoItemRepo, SqlTodoitemRepo>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +52,13 @@ namespace WebApp
             {
                 endpoints.MapControllers();
             });
+
+            var serviceScopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+            using (var serviceScope = serviceScopeFactory.CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<MyAppContext>();
+                dbContext.Database.EnsureCreated();
+            }
         }
     }
 }
