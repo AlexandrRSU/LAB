@@ -59,7 +59,7 @@ namespace WebApp.Data
 
         public IEnumerable<TodoItem> UserItemsByCategory(long id, string category)
         {
-            return from item in _context.TodoItems where (item.UserId == id) & (item.Category == category) orderby item.Category ascending select item;
+            return from item in _context.TodoItems where (item.UserId == id) && (item.Category == category) orderby item.Category ascending select item;
         }
 
         public IEnumerable<TodoItem> UserItemsByImportance(long id, string importance)
@@ -90,7 +90,7 @@ namespace WebApp.Data
 
         public IEnumerable<TodoItem> UserItemsIsComplete(long id, bool IsComplete) 
         {
-            return from items in _context.TodoItems where (items.UserId == id) & (items.IsComplete == IsComplete) select items;
+            return from items in _context.TodoItems where (items.UserId == id) && (items.IsComplete == IsComplete) select items;
         }
     }
 }

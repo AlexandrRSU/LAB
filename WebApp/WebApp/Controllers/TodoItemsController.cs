@@ -102,7 +102,7 @@ namespace WebApp.Controllers
             return _repository.UserItemsByCategory(id, category);
         }
 
-        [HttpGet("ByImportance{id}")]
+        [HttpGet("ByImportance/{id}")]
         public IEnumerable<TodoItem> UserItemsByImportance(long id, [FromQuery] string importance)
         {
             return _repository.UserItemsByImportance(id, importance);
